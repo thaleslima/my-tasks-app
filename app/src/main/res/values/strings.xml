@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">CodeLab - Tarefas</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="text_item">ToDo</string>
+    <string name="text_new_task">Nova Tarefa</string>
+    <string name="text_button_add">Add</string>
+    <string name="text_button_cancel">Cancelar</string>
+    <string name="text_no_task">Você ainda não tem tarefas</string>
+    <string name="text_done">Realizado</string>
+    <string name="text_remove">Excluir</string>
+    <string name="selected_count">%1$s selected</string>
+
+</resources>
