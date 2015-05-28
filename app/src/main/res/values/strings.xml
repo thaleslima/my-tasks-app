@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">CodeLab - Tarefas</string>
+    <string name="app_name">CodeLab - Minhas Tarefas</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="text_item">ToDo</string>
+    <string name="text_item">Tarefa</string>
     <string name="text_new_task">Nova Tarefa</string>
     <string name="text_button_add">Add</string>
     <string name="text_button_cancel">Cancelar</string>
