@@ -22,11 +22,15 @@ public class MyEndpoint {
      * A simple endpoint method that takes a name and says Hi back
      */
     @ApiMethod(name = "sayHi")
-    public MyBean sayHi(@Named("name") String name) {
-        MyBean response = new MyBean();
-        response.setData("Hi, " + name);
+    public TaskBean sayHi(@Named("name") String name) {
+        TaskBean response = new TaskBean();
 
         return response;
     }
 
+    //Todo - Metodo "DELETE" para deletar todas as tarefas
+
+    //Todo - Metodo "POST" para armazenar todas as tarefas atuais
+
+    //Todo - Metodo "GET" para recuperar tarefas
 }
