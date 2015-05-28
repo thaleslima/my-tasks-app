@@ -10,7 +10,9 @@ import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
 
-import javax.inject.Named;
+import java.util.List;
+
+import static com.codelab.tasks.backend.OfyService.ofy;
 
 /**
  * An endpoint class we are exposing
@@ -18,19 +20,23 @@ import javax.inject.Named;
 @Api(name = "myApi", version = "v1", namespace = @ApiNamespace(ownerDomain = "backend.tasks.codelab.com", ownerName = "backend.tasks.codelab.com", packagePath = ""))
 public class MyEndpoint {
 
-    /**
-     * A simple endpoint method that takes a name and says Hi back
-     */
-    @ApiMethod(name = "sayHi")
-    public TaskBean sayHi(@Named("name") String name) {
-        TaskBean response = new TaskBean();
-
-        return response;
+    //POST https://<project_id>.appspot.com/_ah/api/taskApi/v1/tasks
+    @ApiMethod(name = "storeTask", path = "tasks", httpMethod = ApiMethod.HttpMethod.POST)
+    public void storeTask(TaskBean taskBean) {
+        ofy().save().entity(taskBean).now();
     }
 
-    //Todo - Metodo "DELETE" para deletar todas as tarefas
 
-    //Todo - Metodo "POST" para armazenar todas as tarefas atuais
+    //GET https://<project_id>.appspot.com/_ah/api/taskApi/v1/tasks
+    @ApiMethod(name = "getTasks", path = "tasks", httpMethod = ApiMethod.HttpMethod.GET)
+    public List<TaskBean> getTasks() {
+        return ofy().load().type(TaskBean.class).list();
+    }
 
-    //Todo - Metodo "GET" para recuperar tarefas
+
+    //DELETE https://<project_id>.appspot.com/_ah/api/taskApi/v1/tasks
+    @ApiMethod(name = "clearTasks", path = "tasks", httpMethod = ApiMethod.HttpMethod.DELETE)
+    public void clearTasks() {
+        ofy().delete().entities(ofy().load().type(TaskBean.class).list()).now();
+    }
 }
