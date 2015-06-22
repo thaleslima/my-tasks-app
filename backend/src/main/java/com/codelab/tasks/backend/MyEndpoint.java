@@ -9,8 +9,7 @@ package com.codelab.tasks.backend;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
-
-import java.util.List;
+import javax.inject.Named;
 
 import static com.codelab.tasks.backend.OfyService.ofy;
 
@@ -20,23 +19,36 @@ import static com.codelab.tasks.backend.OfyService.ofy;
 @Api(name = "myApi", version = "v1", namespace = @ApiNamespace(ownerDomain = "backend.tasks.codelab.com", ownerName = "backend.tasks.codelab.com", packagePath = ""))
 public class MyEndpoint {
 
-    //POST https://<project_id>.appspot.com/_ah/api/taskApi/v1/tasks
-    @ApiMethod(name = "storeTask", path = "tasks", httpMethod = ApiMethod.HttpMethod.POST)
-    public void storeTask(TaskBean taskBean) {
-        ofy().save().entity(taskBean).now();
+    //Exemplo de metodo
+    @ApiMethod(name = "sayHi", path = "tasks", httpMethod = ApiMethod.HttpMethod.GET)
+    public TaskBean sayHi(@Named("name") String task) {
+        TaskBean response = new TaskBean();
+
+        return response;
     }
 
 
-    //GET https://<project_id>.appspot.com/_ah/api/taskApi/v1/tasks
-    @ApiMethod(name = "getTasks", path = "tasks", httpMethod = ApiMethod.HttpMethod.GET)
-    public List<TaskBean> getTasks() {
-        return ofy().load().type(TaskBean.class).list();
-    }
+    //TODO - implementar metodo para listar de uma tarefa
+    //Name: storeTask
+    //path: task
+    //httpMethod: POST
+    //retorno: void
+    //parameto: Objeto de task
+    //Gravar dados usando o objeto de 'OFY' Ex.: ofy().save.entity(entidade).now();
 
 
-    //DELETE https://<project_id>.appspot.com/_ah/api/taskApi/v1/tasks
-    @ApiMethod(name = "clearTasks", path = "tasks", httpMethod = ApiMethod.HttpMethod.DELETE)
-    public void clearTasks() {
-        ofy().delete().entities(ofy().load().type(TaskBean.class).list()).now();
-    }
+    //TODO - implementar metodo para listar todas as tarefas
+    //Name: getTasks
+    //path: task
+    //httpMethod: GET
+    //retorno: List de tasks
+    //Listar dados usando o objeto de 'OFY' Ex.: ofy().load().type(entidade.class).list();
+
+
+    //TODO - implementar metodo para deletar todas as tarefas
+    //Name: clearTasks
+    //path: task
+    //httpMethod: DELETE
+    //retorno: void
+    //Listar dados usando o objeto de 'OFY' Ex.: ofy().delete().entities(lista de entidades).now();;
 }

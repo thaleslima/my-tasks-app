@@ -21,12 +21,17 @@ public class TaskBagImpl implements TaskBag {
     private List<Task> mTaks;
     private MyApi taskApiService;
 
+    /**
+     * Construtor que inicia o serviço do Google
+     */
     public TaskBagImpl() {
         mTaks = new ArrayList<>();
 
         MyApi.Builder builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(),
                 new AndroidJsonFactory(), null)
-                .setRootUrl("https://task-gdg-maven.appspot.com/_ah/api/")
+
+                //TODO - inserir o endereço correto do serviço
+                .setRootUrl("https://project_id.appspot.com/_ah/api/")
                 .setGoogleClientRequestInitializer( new GoogleClientRequestInitializer() {
                                                         @Override
                                                         public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest)
@@ -72,6 +77,10 @@ public class TaskBagImpl implements TaskBag {
         }
     }
 
+
+    /**
+     * metodo para gravar tarefas no serviço Google
+     */
     @Override
     public synchronized void pushToRemote() throws IOException {
         taskApiService.clearTasks().execute();
@@ -84,28 +93,29 @@ public class TaskBagImpl implements TaskBag {
             taskBean.setText(task.getText());
             taskBean.setCompleted(task.isCompleted());
             taskBean.setPrependedDate(task.getPrependedDate());
-            taskApiService.storeTask(taskBean).execute();
+
+            //TODO - armarzenar task no serviço google - invocar o store task do objeto taskApiService
         }
     }
 
+
+
+    /**
+     * metodo para recuperar tarefas do serviço Google
+     */
     @Override
     public synchronized void pullFromRemote() throws IOException {
-        List<TaskBean> remoteTasks = taskApiService.getTasks().execute().getItems();
+        List<TaskBean> remoteTasks = null;
 
-        getTasks().clear();
+        //TODO - listar todas as tarefas armazenadas no serviço do google - listar tasks pelo taskApiService
 
+        //Converte os objetos task do serviço nos objetos task local
         if(remoteTasks != null) {
+            getTasks().clear();
+
             for (TaskBean taskBean : remoteTasks) {
                 mTaks.add(new Task(taskBean.getId(), taskBean.getText(), taskBean.getCompleted(), taskBean.getPrependedDate()));
             }
-
-            Comparator<Task> comparator = new Comparator<Task>() {
-                public int compare(Task c1, Task c2) {
-                    return c1.getId().compareTo(c2.getId());
-                }
-            };
-
-            Collections.sort(mTaks, comparator);
         }
     }
 }

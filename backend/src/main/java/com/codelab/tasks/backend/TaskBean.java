@@ -30,35 +30,5 @@ public class TaskBean {
         this.date = date;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public boolean isCompleted() {
-        return completed;
-    }
-
-    public void setCompleted(boolean completed) {
-        this.completed = completed;
-    }
-
-    public String getPrependedDate() {
-        return date;
-    }
-
-    public void setPrependedDate(String prependedDate) {
-        this.date = prependedDate;
-    }
+    //TODO implementar todos os gets e sets das propriedades da classe
 }
