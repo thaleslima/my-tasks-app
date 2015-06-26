@@ -9,7 +9,9 @@ import com.googlecode.objectify.ObjectifyService;
  */
 public class OfyService {
     static {
-        ObjectifyService.register(TaskBean.class);
+
+        //TODO - Registrar entidade TaskBean no Objectfy. Ex.: ObjectifyService.register(Entity.class);
+
     }
 
     public static Objectify ofy() {
