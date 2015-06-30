@@ -30,7 +30,7 @@ public class TaskBagImpl implements TaskBag {
         MyApi.Builder builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(),
                 new AndroidJsonFactory(), null)
 
-                //TODO - inserir o endereço correto do serviço
+                //inserir o endereço correto do serviço
                 .setRootUrl("https://project_id.appspot.com/_ah/api/")
                 .setGoogleClientRequestInitializer( new GoogleClientRequestInitializer() {
                                                         @Override
