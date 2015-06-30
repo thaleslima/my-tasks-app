@@ -1,7 +1,16 @@
 package com.codelab.tasks.data;
 
+import com.codelab.tasks.backend.myApi.MyApi;
+import com.codelab.tasks.backend.myApi.model.TaskBean;
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.extensions.android.json.AndroidJsonFactory;
+import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
+import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
+
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -10,8 +19,24 @@ import java.util.List;
  */
 public class TaskBagImpl implements TaskBag {
     private List<Task> mTaks;
+    private MyApi taskApiService;
 
     public TaskBagImpl() {
+        mTaks = new ArrayList<>();
+
+        MyApi.Builder builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(),
+                new AndroidJsonFactory(), null)
+                .setRootUrl("https://task-gdg-maven.appspot.com/_ah/api/")
+                .setGoogleClientRequestInitializer( new GoogleClientRequestInitializer() {
+                                                        @Override
+                                                        public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest)
+                                                                throws IOException {
+                                                            //abstractGoogleClientRequest.setDisableGZipContent(true);
+                                                        }
+                                                    }
+
+                );
+        taskApiService = builder.build();
     }
 
     @Override
@@ -49,13 +74,38 @@ public class TaskBagImpl implements TaskBag {
 
     @Override
     public synchronized void pushToRemote() throws IOException {
-        //Todo - deletar todas as tarefas
+        taskApiService.clearTasks().execute();
 
-        //Todo - armazenar todas as tarefas atuais
+        Long id = 0L;
+
+        for (Task task : getTasks()) {
+            TaskBean taskBean = new TaskBean();
+            taskBean.setId(++id);
+            taskBean.setText(task.getText());
+            taskBean.setCompleted(task.isCompleted());
+            taskBean.setPrependedDate(task.getPrependedDate());
+            taskApiService.storeTask(taskBean).execute();
+        }
     }
 
     @Override
     public synchronized void pullFromRemote() throws IOException {
-        //Todo - recuperar tarefas
+        List<TaskBean> remoteTasks = taskApiService.getTasks().execute().getItems();
+
+        getTasks().clear();
+
+        if(remoteTasks != null) {
+            for (TaskBean taskBean : remoteTasks) {
+                mTaks.add(new Task(taskBean.getId(), taskBean.getText(), taskBean.getCompleted(), taskBean.getPrependedDate()));
+            }
+
+            Comparator<Task> comparator = new Comparator<Task>() {
+                public int compare(Task c1, Task c2) {
+                    return c1.getId().compareTo(c2.getId());
+                }
+            };
+
+            Collections.sort(mTaks, comparator);
+        }
     }
 }
