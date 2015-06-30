@@ -13,21 +13,21 @@ public class TaskBean {
     private Long id;
     private String text;
     private boolean completed = false;
-    private String date;
+    private String prependedDate;
 
     public TaskBean() {
     }
 
-    public TaskBean(String text, String date) {
-        this.date = date;
+    public TaskBean(String text, String prependedDate) {
+        this.prependedDate = prependedDate;
         this.text = text;
     }
 
-    public TaskBean(Long id, String text, boolean completed, String date) {
+    public TaskBean(Long id, String text, boolean completed, String prependedDate) {
         this.id = id;
         this.text = text;
         this.completed = completed;
-        this.date = date;
+        this.prependedDate = prependedDate;
     }
 
     //TODO implementar todos os gets e sets das propriedades da classe
