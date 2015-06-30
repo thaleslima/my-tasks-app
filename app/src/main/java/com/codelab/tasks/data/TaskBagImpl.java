@@ -93,8 +93,7 @@ public class TaskBagImpl implements TaskBag {
             taskBean.setText(task.getText());
             taskBean.setCompleted(task.isCompleted());
             taskBean.setPrependedDate(task.getPrependedDate());
-
-            //TODO - armarzenar task no serviço google - invocar o store task do objeto taskApiService
+            taskApiService.storeTask(taskBean).execute();
         }
     }
 
@@ -105,17 +104,22 @@ public class TaskBagImpl implements TaskBag {
      */
     @Override
     public synchronized void pullFromRemote() throws IOException {
-        List<TaskBean> remoteTasks = null;
+        List<TaskBean> remoteTasks = taskApiService.getTasks().execute().getItems();
 
-        //TODO - listar todas as tarefas armazenadas no serviço do google - listar tasks pelo taskApiService
+        getTasks().clear();
 
-        //Converte os objetos task do serviço nos objetos task local
         if(remoteTasks != null) {
-            getTasks().clear();
-
             for (TaskBean taskBean : remoteTasks) {
                 mTaks.add(new Task(taskBean.getId(), taskBean.getText(), taskBean.getCompleted(), taskBean.getPrependedDate()));
             }
+
+            Comparator<Task> comparator = new Comparator<Task>() {
+                public int compare(Task c1, Task c2) {
+                    return c1.getId().compareTo(c2.getId());
+                }
+            };
+
+            Collections.sort(mTaks, comparator);
         }
     }
 }
