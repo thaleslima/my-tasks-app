@@ -1,6 +1,12 @@
 # my-tasks-app
 :green_book: [Android] [Google App Engine] [Google Endpoints] My Tasks application integrated with Google Cloud Platform.
 
+Services used on the backend services
+------------------------------------
+
+* [Google App Angine][10]
+* [Google Cloud Endpoints][11]
+* [Google Cloud Datastore][13]
 
 License
 -------
@@ -18,3 +24,8 @@ License
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
+    
+[10]: https://cloud.google.com/appengine/
+[11]: https://cloud.google.com/endpoints/
+[13]: https://cloud.google.com/datastore/
+
